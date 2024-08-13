@@ -1,0 +1,11 @@
+{
+  "name": "desafio-docker-node",
+  "version": "1.0.0",
+  "description": "Desafio referente a Unidade do Docker do curso Full Cycle 3.0",
+  "main": "index.js",
+  "author": "Vially Israel",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
