@@ -16,11 +16,19 @@ docker network --create desafio-docker-node
 
 
 Build node
+
 cd node
+
 docker build -t desafio-docker-node:prod . -f Dockerfile.prod
+
 docker run -d --name app_node --network docker_node-network desafio-docker-node:prod
 
+
+
 Build: nginx
+
 cd nginx
+
 docker build -t nginx:prod . -f Dockerfile.prod
+
 docker run -d --name nginx --network desafio-docker-node -p 8080:80 nginx:prod
