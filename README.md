@@ -32,3 +32,7 @@ cd nginx
 docker build -t nginx:prod . -f Dockerfile.prod
 
 docker run -d --name nginx --network desafio-docker-node -p 8080:80 nginx:prod
+
+
+Pode ser que seja preciso dar as permissões a pasta mysql
+chmod 664 nome-do-arquivo
