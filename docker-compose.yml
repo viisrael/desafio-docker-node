@@ -4,14 +4,15 @@ services:
   app:
     build:
       context: node
+      dockerfile: Dockerfile.prod
     networks:
       - docker_node-network
     volumes:
       - ./node:/usr/src/app
     tty: true
     container_name: app_node
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
 
   db:
     image: mysql:5.7
@@ -28,6 +29,16 @@ services:
       - docker_node-network
     ports:
       - "3306:3306"
+
+
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile.prod
+    networks:
+      - docker_node-network
+    ports:
+      - "8080:80"
 
 networks:
   docker_node-network:

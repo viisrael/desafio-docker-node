@@ -4,11 +4,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-#EXPOSE 8081
-
-#CMD ["node", "index.js"]
-
-
 
 FROM node:15-alpine
 
@@ -18,5 +13,5 @@ RUN rm -rf /var/www/html
 COPY --from=builder /usr/src/app .
 RUN chown -R root:root /var/www
 
-#EXPOSE 8080
+EXPOSE 8080
 CMD ["node", "index.js"]
