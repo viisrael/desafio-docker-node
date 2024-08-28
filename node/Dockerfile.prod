@@ -13,5 +13,7 @@ RUN rm -rf /var/www/html
 COPY --from=builder /usr/src/app .
 RUN chown -R root:root /var/www
 
+RUN yarn
+
 EXPOSE 8080
 CMD ["node", "index.js"]
