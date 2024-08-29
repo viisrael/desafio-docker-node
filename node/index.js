@@ -29,18 +29,44 @@ const initializeDatabase = () => {
             if (err) {
                 console.error('Erro ao criar tabela:', err);
                 connection.end();
+                return;
             }
             console.log('Tabela criada com sucesso');
 
-            // Inserir dados
-            const sqlInsert = `INSERT INTO people (name) VALUES ('Bruce Wayne');INSERT INTO people (name) VALUES ('Clark Kent');INSERT INTO people (name) VALUES ('Peter Parker');INSERT INTO people (name) VALUES ('Tony Stark');INSERT INTO people (name) VALUES ('Ash Ketchum');`;
-            connection.query(sqlInsert, (err) => {
+            connection.query('SELECT COUNT(*) AS count FROM people', (err, results) => {
                 if (err) {
-                    console.error('Erro ao inserir dados:', err);
-                } else {
-                    console.log('Dados inseridos com sucesso');
+                    console.error('Erro ao verificar dados:', err);
+                    connection.end();
+                    return;
                 }
-                connection.end();
+
+                if (results[0].count === 0) {
+                    const names = ['Bruce Wayne', 'Clark Kent', 'Peter Parker', 'Tony Stark', 'Ash Ketchum'];
+                    const insertPromises = names.map(name => {
+                        return new Promise((resolve, reject) => {
+                            connection.query('INSERT INTO people (name) VALUES (?)', [name], (err) => {
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve();
+                                }
+                            });
+                        });
+                    });
+
+                    Promise.all(insertPromises)
+                        .then(() => {
+                            console.log('Dados iniciais inseridos com sucesso');
+                            connection.end();
+                        })
+                        .catch((err) => {
+                            console.error('Erro ao inserir dados iniciais:', err);
+                            connection.end();
+                        });
+                } else {
+                    console.log('Dados já existem na tabela');
+                    connection.end();
+                }
             });
         });
     });
