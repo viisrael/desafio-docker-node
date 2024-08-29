@@ -1,38 +1,49 @@
-Desafio:
+# Desafio
 
-A idéia principal é que quando um usuário acesse o nginx, o mesmo fará uma chamada em nossa aplicação node.js. Essa aplicação por sua vez adicionará um registro em nosso banco de dados mysql, cadastrando um nome na tabela people.
+A ideia principal é que quando um usuário acesse o Nginx, ele fará uma chamada à nossa aplicação Node.js. Essa aplicação, por sua vez, adicionará um registro em nosso banco de dados MySQL, cadastrando um nome na tabela `people`.
 
-O retorno da aplicação node.js para o nginx deverá ser:
+O retorno da aplicação Node.js para o Nginx deverá ser:
 
+```html
 <h1>Full Cycle Rocks!</h1>
+<ul>
+    <!-- Lista de nomes cadastrados no banco de dados -->
+</ul>
 
-- Lista de nomes cadastrada no banco de dados.
+```
 
-Gere o docker-compose de uma forma que basta apenas rodarmos: docker-compose up -d que tudo deverá estar funcionando e disponível na porta: 8080.
+### Docker Compose
+Para executar a aplicação através do Docker Compose
+```bash
+docker-compose up -d --build
+```
 
+### Build e Execução
+Para executar cada container separado
 
-Criar a rede docker:
-docker network --create desafio-docker-node
+### Buile Node.js
+Navegue até o diretório do Node.js e construa a imagem:
 
-
-Build node
-
+```bash
 cd node
-
 docker build -t desafio-docker-node:prod . -f Dockerfile.prod
+```
 
-docker run -d --name app_node --network docker_node-network desafio-docker-node:prod
+### Execute o container Node.js:
 
+```bash
+docker run -d --name app_node --network desafio-docker-node desafio-docker-node:prod
+```
 
-
-Build: nginx
-
+### Build Nginx
+Navegue até o diretório do Nginx e construa a imagem:
+```bash
 cd nginx
-
 docker build -t nginx:prod . -f Dockerfile.prod
+```
 
-docker run -d --name nginx --network desafio-docker-node -p 8080:80 nginx:prod
-
-
-Pode ser que seja preciso dar as permissões a pasta mysql
-chmod 664 nome-do-arquivo
+### Permissões
+Pode ser necessário ajustar as permissões da pasta MySQL:
+```
+chmod 777 -R /mysql
+```
