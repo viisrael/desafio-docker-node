@@ -8,9 +8,7 @@ COPY . .
 
 FROM node:18-alpine
 
-
 ENV DOCKERIZE_VERSION v0.7.0
-
 RUN apk update \
     && apk add --no-cache wget \
     && wget -O - "https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz" | tar xzf - -C /usr/local/bin \
@@ -26,4 +24,4 @@ RUN chown -R root:root /var/www
 RUN yarn
 
 EXPOSE 8080
-CMD ["node", "index.js"]
+#CMD ["node", "index.js"]
